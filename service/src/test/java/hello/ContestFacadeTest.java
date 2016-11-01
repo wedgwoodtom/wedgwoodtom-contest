@@ -13,6 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+//@ContextConfiguration(classes = {SpringMongoConfiguration.class})
 public class ContestFacadeTest
 {
     @Autowired

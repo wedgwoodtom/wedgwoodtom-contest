@@ -11,6 +11,16 @@ import java.util.*;
 @Document
 public class Player extends BaseDomainObject
 {
+    // TODO: Need to add
+    // TODO: Player videos for each contest they enter
+
+    // TODO: User votes - user must register in order to vote
+    // TODO: need auto password reset
+    // TODO: Users can vote for any contest they want to, but only once (order them)
+
+    // TODO: Perhaps have PlayerVotes - need to model this all out much further
+
+
     private String firstName;
 
     @Indexed

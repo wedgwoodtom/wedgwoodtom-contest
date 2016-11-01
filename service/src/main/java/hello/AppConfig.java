@@ -9,6 +9,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 @Configuration
 public class AppConfig
 {
+    // TODO: Add a properties file, etc
+
+    // TODO: Where is the mongoDB named?
+
     public @Bean
     MongoTemplate mongoTemplate() throws Exception
     {
