@@ -1,11 +1,12 @@
 package com.wedgwoodtom.test.data;
 
 import org.springframework.data.annotation.PersistenceConstructor;
+import org.springframework.data.mongodb.core.CollectionCallback;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.util.*;
 
 @Document
 public class Player extends BaseDomainObject
@@ -19,7 +20,10 @@ public class Player extends BaseDomainObject
     private String email;
 
     @DBRef
-    private List<Contest> contests;
+    private List<Contest> contests = new ArrayList<>();
+
+    // TODO: Can use Set if concerned about duplicates
+//    private Set<Contest> contests = new HashSet<>();
 
     @PersistenceConstructor
     public Player(String firstName, String lastName, String email)
@@ -67,5 +71,14 @@ public class Player extends BaseDomainObject
     public void setContests(List<Contest> contests)
     {
         this.contests = contests;
+    }
+
+    public void addContest(Contest contest)
+    {
+        // TODO: Use this method in order to avoid duplicates
+        if (!contests.contains(contest))
+        {
+            contests.add(contest);
+        }
     }
 }

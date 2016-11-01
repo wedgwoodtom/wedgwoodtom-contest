@@ -38,8 +38,8 @@ public class CustomerRepositoryTests {
     Customer dave, oliver, carter;
 
     @Before
-    public void setUp() {
-
+    public void setUp()
+    {
         repository.deleteAll();
 
         dave = repository.save(new Customer("Dave", "Matthews"));
