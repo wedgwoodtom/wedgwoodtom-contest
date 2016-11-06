@@ -6,15 +6,15 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Document
 public class Contest extends BaseDomainObject
 {
     @Indexed
     private String title;
+
+    private Boolean active;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date startDate;
@@ -23,9 +23,23 @@ public class Contest extends BaseDomainObject
     private Date endDate;
 
     @DBRef
-    private List<Player> players = new ArrayList<>();
+    private List<Player> playerList = new ArrayList<>();
 
-    @PersistenceConstructor
+    @DBRef
+    private List<Entry> entryList = new ArrayList<>();
+
+//    @DBRef
+//    private Map<Player, Entry> playerToEntryMap = new HashMap<>();
+//    @DBRef
+//    private Map<String, List<Entry>> playerEntryRankings = new HashMap<>();
+
+
+    @DBRef
+    private List<PlayerRankings> playerRankingsList = new ArrayList<>();
+
+
+    // TODO; Not sure why this is needed - works with or without it
+//    @PersistenceConstructor
     public Contest(String title)
     {
         this.title = title;
@@ -41,21 +55,82 @@ public class Contest extends BaseDomainObject
         this.title = title;
     }
 
-    public List<Player> getPlayers()
+    public List<Player> getPlayerList()
     {
-        return players;
+        return playerList;
     }
 
-    public void setPlayers(List<Player> players)
+    public void setPlayerList(List<Player> playerList)
     {
-        this.players = players;
+        this.playerList = playerList;
     }
 
     public void addPlayer(Player player)
     {
-        if (!players.contains(player))
+        if (!playerList.contains(player))
         {
-            players.add(player);
+            playerList.add(player);
         }
+    }
+
+    public Date getStartDate()
+    {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate)
+    {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate()
+    {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate)
+    {
+        this.endDate = endDate;
+    }
+
+    public List<Entry> getEntryList()
+    {
+        return entryList;
+    }
+
+    public void setEntryList(List<Entry> entryList)
+    {
+        this.entryList = entryList;
+    }
+
+    public Boolean getActive()
+    {
+        return active;
+    }
+
+    public void setActive(Boolean active)
+    {
+        this.active = active;
+    }
+
+//    public Map<String, List<Entry>> getPlayerEntryRankings()
+//    {
+//        return playerEntryRankings;
+//    }
+//
+//    public void setPlayerEntryRankings(Map<String, List<Entry>> playerEntryRankings)
+//    {
+//        this.playerEntryRankings = playerEntryRankings;
+//    }
+
+
+    public List<PlayerRankings> getPlayerRankingsList()
+    {
+        return playerRankingsList;
+    }
+
+    public void setPlayerRankingsList(List<PlayerRankings> playerRankingsList)
+    {
+        this.playerRankingsList = playerRankingsList;
     }
 }

@@ -20,7 +20,6 @@ public class Player extends BaseDomainObject
 
     // TODO: Perhaps have PlayerVotes - need to model this all out much further
 
-
     private String firstName;
 
     @Indexed
@@ -29,7 +28,7 @@ public class Player extends BaseDomainObject
     @Indexed(unique = true)
     private String email;
 
-    @DBRef
+    @DBRef(lazy = true)
     private List<Contest> contests = new ArrayList<>();
 
     // TODO: Can use Set if concerned about duplicates
@@ -91,4 +90,5 @@ public class Player extends BaseDomainObject
             contests.add(contest);
         }
     }
+
 }

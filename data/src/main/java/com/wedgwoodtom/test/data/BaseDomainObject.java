@@ -1,16 +1,20 @@
 package com.wedgwoodtom.test.data;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.StandardToStringStyle;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 
 public class BaseDomainObject
 {
+
     @Id
     private ObjectId id;
 
-//    @Version
-//    private Integer version;
+    // OptimisticLockingFailureException is thrown if the versions do not match on an update (http://docs.spring.io/spring-data/mongodb/docs/current/reference/html/)
+    @Version
+    private Integer version;
 
     public ObjectId getId()
     {
@@ -20,6 +24,11 @@ public class BaseDomainObject
     public void setId(ObjectId id)
     {
         this.id = id;
+    }
+
+    public String idAsString()
+    {
+        return getId().toString();
     }
 
     @Override
@@ -37,5 +46,16 @@ public class BaseDomainObject
     public int hashCode()
     {
         return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public String toString()
+    {
+        StandardToStringStyle style = new StandardToStringStyle();
+        style.setFieldSeparator(", ");
+        style.setUseClassName(false);
+        style.setUseIdentityHashCode(false);
+
+        return new ReflectionToStringBuilder(this, style).toString();
     }
 }
