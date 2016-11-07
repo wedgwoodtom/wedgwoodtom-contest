@@ -12,15 +12,16 @@ public class PlayerRankings extends BaseDomainObject
     @DBRef
     private Player player;
 
-//    @DBRef
-//    private Contest contest;
+    @DBRef(lazy = true)
+    private Contest contest;
 
     @DBRef
     private List<Entry> rankedEntryList = new ArrayList<>();
 
 
-    public PlayerRankings(Player player, List<Entry> rankedEntryList)
+    public PlayerRankings(Contest contest, Player player, List<Entry> rankedEntryList)
     {
+        this.contest = contest;
         this.player = player;
         this.rankedEntryList = rankedEntryList;
     }
@@ -35,15 +36,15 @@ public class PlayerRankings extends BaseDomainObject
         this.player = player;
     }
 
-//    public Contest getContest()
-//    {
-//        return contest;
-//    }
-//
-//    public void setContest(Contest contest)
-//    {
-//        this.contest = contest;
-//    }
+    public Contest getContest()
+    {
+        return contest;
+    }
+
+    public void setContest(Contest contest)
+    {
+        this.contest = contest;
+    }
 
     public List<Entry> getRankedEntryList()
     {

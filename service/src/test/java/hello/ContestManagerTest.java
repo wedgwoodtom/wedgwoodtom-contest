@@ -91,10 +91,10 @@ public class ContestManagerTest
         assertThat(contestManager.findContestById(freestyle1.getId().toString()).getPlayerList().size()).isEqualTo(0);
         assertThat(contestManager.findContestById(freestyle2.getId().toString()).getPlayerList().size()).isEqualTo(0);
 
-        contestManager.addPlayerToContest(dave.idAsString(), freestyle1.idAsString());
-        contestManager.addPlayerToContest(dave.idAsString(), freestyle1.idAsString());
-        contestManager.addPlayerToContest(dave.idAsString(), freestyle1.idAsString());
-        contestManager.addPlayerToContest(dave.idAsString(), freestyle2.idAsString());
+        contestManager.addPlayerToContest(dave, freestyle1);
+        contestManager.addPlayerToContest(dave, freestyle1);
+        contestManager.addPlayerToContest(dave, freestyle1);
+        contestManager.addPlayerToContest(dave, freestyle2);
 
         assertThat(contestManager.findContestById(freestyle1.idAsString()).getPlayerList().size()).isEqualTo(1);
         assertThat(contestManager.findContestById(freestyle2.idAsString()).getPlayerList().size()).isEqualTo(1);
@@ -106,7 +106,7 @@ public class ContestManagerTest
         assertThat(fromDb.getContests().get(0)).isEqualTo(freestyle1);
         assertThat(fromDb.getContests().get(1)).isEqualTo(freestyle2);
 
-        contestManager.addPlayerToContest(oliver.idAsString(), freestyle1.idAsString());
+        contestManager.addPlayerToContest(oliver, freestyle1);
         assertThat(contestManager.findContestById(freestyle1.getId().toString()).getPlayerList().size()).isEqualTo(2);
     }
 
@@ -116,13 +116,13 @@ public class ContestManagerTest
         Contest contest = contestManager.findContestById(freestyle1.idAsString());
         Player player = contestManager.findPlayerById(carter.idAsString());
 
-        contestManager.addPlayerToContest(carter.idAsString(), freestyle1.idAsString());
+        contestManager.addPlayerToContest(carter, freestyle1);
         Contest updatedContest = contestManager.findContestById(freestyle1.idAsString());
         assertThat(contest.getPlayerList().size()).isEqualTo(updatedContest.getPlayerList().size()-1);
         Player updatedPlayer = contestManager.findPlayerById(carter.idAsString());
         assertThat(player.getContests().size()).isEqualTo(updatedPlayer.getContests().size()-1);
 
-        contestManager.removePlayerFromContest(carter.idAsString(), freestyle1.idAsString());
+        contestManager.removePlayerFromContest(carter, freestyle1);
         updatedContest = contestManager.findContestById(freestyle1.idAsString());
         assertThat(contest.getPlayerList().size()).isEqualTo(updatedContest.getPlayerList().size());
         updatedPlayer = contestManager.findPlayerById(carter.idAsString());
@@ -160,12 +160,40 @@ public class ContestManagerTest
         Contest contest = contestManager.findContestById(freestyle1.idAsString());
         assertThat(contest.getPlayerRankingsList().size()).isEqualTo(0);
 
-        PlayerRankings davesRankings = contestManager.save(new PlayerRankings(dave,  Arrays.asList(entry1, entry2)));
+        PlayerRankings davesRankings = contestManager.save(new PlayerRankings(contest, dave,  Arrays.asList(entry1, entry2)));
         contest.getPlayerRankingsList().add(davesRankings);
         contestManager.save(contest);
 
         Contest updatedContest = contestManager.findContestById(freestyle1.idAsString());
         assertThat(updatedContest.getPlayerRankingsList().size()).isEqualTo(1);
+    }
+
+    @Test
+    public void testFindPlayerRankings()
+    {
+        // TODO: Fix this
+        PlayerRankings playerRankings = contestManager.findPlayerRankings(oliver, freestyle1);
+        assertThat(playerRankings).isNull();
+
+        //
+        PlayerRankings playerRankings1 = contestManager.findPlayerRankings(oliver, freestyle1);
+        assertThat(playerRankings1).isNull();
+
+        Contest contest = contestManager.findContestById(freestyle1.idAsString());
+        PlayerRankings rankings = contestManager.save(new PlayerRankings(contest, oliver,  Arrays.asList(entry1, entry2)));
+        contest.getPlayerRankingsList().add(rankings);
+        contestManager.save(contest);
+
+        //
+        playerRankings1 = contestManager.findPlayerRankings(oliver, freestyle1);
+        assertThat(playerRankings1).isNotNull();
+
+        playerRankings1 = contestManager.findPlayerRankings(oliver, freestyle2);
+        assertThat(playerRankings1).isNull();
+
+        Contest updatedContest = contestManager.findContestById(freestyle1.idAsString());
+        playerRankings = contestManager.findPlayerRankings(oliver, freestyle1);
+        assertThat(playerRankings).isNotNull();
     }
 
 
