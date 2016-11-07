@@ -1,4 +1,4 @@
-package hello;
+package com.wedgwoodtom.contest.ui;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

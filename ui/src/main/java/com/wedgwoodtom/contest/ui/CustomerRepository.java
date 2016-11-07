@@ -1,4 +1,4 @@
-package hello;
+package com.wedgwoodtom.contest.ui;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

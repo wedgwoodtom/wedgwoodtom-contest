@@ -1,4 +1,4 @@
-package hello;
+package com.wedgwoodtom.contest.service;
 
 import com.wedgwoodtom.test.data.Contest;
 import com.wedgwoodtom.test.data.Entry;
@@ -196,6 +196,14 @@ public class ContestManagerTest
         assertThat(playerRankings).isNotNull();
     }
 
+
+    // TODO: This is really the test data setup which should exercise most
+    //  functionality
+    @Test
+    public void testSetupTestContestData()
+    {
+
+    }
 
     // TODO: Should I just bag all the repository stuff and just use MongoTemplate?
 

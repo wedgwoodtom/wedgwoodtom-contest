@@ -1,4 +1,4 @@
-package hello;
+package com.wedgwoodtom.contest.ui;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package hello;
+package com.wedgwoodtom.contest.ui;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

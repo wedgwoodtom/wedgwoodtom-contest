@@ -1,5 +1,8 @@
-package hello;
+package com.wedgwoodtom.contest.ui;
 
+import com.wedgwoodtom.contest.ui.Customer;
+import com.wedgwoodtom.contest.ui.CustomerEditor;
+import com.wedgwoodtom.contest.ui.CustomerRepository;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
@@ -17,8 +20,10 @@ public class CustomerEditorTests {
     private static final String FIRST_NAME = "Marcin";
     private static final String LAST_NAME = "Grzejszczak";
 
-    @Mock CustomerRepository customerRepository;
-    @InjectMocks CustomerEditor editor;
+    @Mock
+    CustomerRepository customerRepository;
+    @InjectMocks
+    CustomerEditor editor;
 
     @Test
     public void shouldStoreCustomerInRepoWhenEditorSaveClicked() {

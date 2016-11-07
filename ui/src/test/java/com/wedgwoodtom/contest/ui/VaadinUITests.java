@@ -1,4 +1,4 @@
-package hello;
+package com.wedgwoodtom.contest.ui;
 
 import javax.annotation.PostConstruct;
 
@@ -22,7 +22,8 @@ import static org.assertj.core.api.BDDAssertions.then;
         webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class VaadinUITests {
 
-    @Autowired CustomerRepository repository;
+    @Autowired
+    CustomerRepository repository;
     VaadinRequest vaadinRequest = Mockito.mock(VaadinRequest.class);
     CustomerEditor editor;
     VaadinUI vaadinUI;

@@ -1,5 +1,7 @@
-package hello;
+package com.wedgwoodtom.contest.ui;
 
+import com.wedgwoodtom.contest.ui.Application;
+import com.wedgwoodtom.contest.ui.CustomerRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

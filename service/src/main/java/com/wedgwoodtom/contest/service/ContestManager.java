@@ -1,10 +1,9 @@
-package hello;
+package com.wedgwoodtom.contest.service;
 
 import com.wedgwoodtom.test.data.Contest;
 import com.wedgwoodtom.test.data.Entry;
 import com.wedgwoodtom.test.data.Player;
 import com.wedgwoodtom.test.data.PlayerRankings;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package hello;
+package com.wedgwoodtom.contest.service;
 
 import com.wedgwoodtom.test.data.Player;
 import org.junit.*;
