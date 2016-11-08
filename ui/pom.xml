@@ -10,6 +10,7 @@
         <version>1.4.1.RELEASE</version>
     </parent>
 
+
 	 <groupId>com.wedgwoodtom</groupId>
     <artifactId>wedgwoodtom-contest-ui</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -31,6 +32,7 @@
     <properties>
         <java.version>1.8</java.version>
     </properties>
+
 
     <dependencies>
         <dependency>
@@ -54,6 +56,23 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+
+        <dependency>
+            <groupId>com.wedgwoodtom</groupId>
+            <artifactId>wedgwoodtom-contest-data</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.wedgwoodtom</groupId>
+            <artifactId>wedgwoodtom-contest-service</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

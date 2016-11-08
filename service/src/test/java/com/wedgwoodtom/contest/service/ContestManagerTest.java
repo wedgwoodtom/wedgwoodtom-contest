@@ -148,15 +148,6 @@ public class ContestManagerTest
     @Test
     public void testAddPlayerRankingsToContest()
     {
-//        Contest contest = contestManager.findContestById(freestyle1.idAsString());
-//        assertThat(contest.getPlayerEntryRankings().isEmpty()).isTrue();
-//
-//        contest.getPlayerEntryRankings().put(dave.idAsString(), Arrays.asList(entry1, entry2));
-//        contestManager.save(contest);
-//
-//        Contest updatedContest = contestManager.findContestById(freestyle1.idAsString());
-//        assertThat(updatedContest.getPlayerEntryRankings().size()).isEqualTo(1);
-
         Contest contest = contestManager.findContestById(freestyle1.idAsString());
         assertThat(contest.getPlayerRankingsList().size()).isEqualTo(0);
 
@@ -203,6 +194,9 @@ public class ContestManagerTest
     public void testSetupTestContestData()
     {
         // contests
+        contestManager.save(new Contest("Skateboard Freestyle 1"));
+        contestManager.save(new Contest("Dabbing it up Contest #1"));
+        contestManager.save(new Contest("PSPS Pugs Agility Contest #1"));
 
         // players
         Player john = contestManager.save(new Player("John", "Smith", "john@fly.com"));
@@ -239,8 +233,6 @@ public class ContestManagerTest
                     PlayerRankings playerRankings = contestManager.findPlayerRankings(player, startedContest);
                     assertThat(playerRankings).isNull();
                 });
-
-
     }
 
 

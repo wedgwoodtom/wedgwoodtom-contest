@@ -10,14 +10,8 @@ import java.util.*;
 @Document
 public class Player extends BaseObject
 {
-    // TODO: Need to add
-    // TODO: Player videos for each contest they enter
-
-    // TODO: User votes - user must register in order to vote
     // TODO: need auto password reset
     // TODO: Users can vote for any contest they want to, but only once (order them)
-
-    // TODO: Perhaps have PlayerVotes - need to model this all out much further
 
     private String firstName;
 
@@ -29,9 +23,6 @@ public class Player extends BaseObject
 
     @DBRef(lazy = true)
     private List<Contest> contests = new ArrayList<>();
-
-    // TODO: Can use Set if concerned about duplicates
-//    private Set<Contest> contests = new HashSet<>();
 
     @PersistenceConstructor
     public Player(String firstName, String lastName, String email)

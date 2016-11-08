@@ -30,13 +30,6 @@ public class Contest extends BaseObject
     @DBRef
     private List<Entry> entryList = new ArrayList<>();
 
-
-//    @DBRef
-//    private Map<Player, Entry> playerToEntryMap = new HashMap<>();
-//    @DBRef
-//    private Map<String, List<Entry>> playerEntryRankings = new HashMap<>();
-
-
     @DBRef
     private List<PlayerRankings> playerRankingsList = new ArrayList<>();
 
@@ -115,16 +108,6 @@ public class Contest extends BaseObject
     {
         this.active = active;
     }
-
-//    public Map<String, List<Entry>> getPlayerEntryRankings()
-//    {
-//        return playerEntryRankings;
-//    }
-//
-//    public void setPlayerEntryRankings(Map<String, List<Entry>> playerEntryRankings)
-//    {
-//        this.playerEntryRankings = playerEntryRankings;
-//    }
 
     public List<PlayerRankings> getPlayerRankingsList()
     {
