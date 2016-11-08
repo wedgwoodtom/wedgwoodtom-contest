@@ -1,14 +1,13 @@
 package com.wedgwoodtom.contest.service;
 
-import com.wedgwoodtom.test.data.Contest;
-import com.wedgwoodtom.test.data.Entry;
-import com.wedgwoodtom.test.data.Player;
-import com.wedgwoodtom.test.data.PlayerRankings;
+import com.wedgwoodtom.test.data.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -103,6 +102,46 @@ public class ContestManager
     {
         List<PlayerRankings> list = playerRankingsRepository.findByPlayerAndContest(player, contest);
         return list.isEmpty() ? null : list.get(0);
+    }
+
+
+    public Contest addContestEntry(Contest contest, Entry entry)
+    {
+        contest.getEntryList().remove(entry);
+        contest.getEntryList().add(entry);
+
+        return contestRepository.save(contest);
+    }
+
+    public synchronized Contest startPlayerRanking(Contest contest)
+    {
+        // TODO: This will be called on a timer, should check start date, etc
+
+        List<Player> playersWithEntries = contest.getEntryList().stream()
+                .map(entry -> entry.getPlayer())
+                .collect(Collectors.toList());
+
+        List<Player> disqualifiedPlayers = new ArrayList<>();
+        contest.getPlayerList().stream()
+                .forEach( player -> {
+                    if (playersWithEntries.contains(player))
+                    {
+                        PlayerRankings playerRankings = new PlayerRankings(contest, player, contest.getEntryList());
+                        playerRankingsRepository.save(playerRankings);
+                    }
+                    else
+                    {
+                        disqualifiedPlayers.add(player);
+                    }
+                } );
+
+        contest.setPlayerList(playersWithEntries);
+        contest.setDisqualifiedPlayers(disqualifiedPlayers);
+        contest.setStatus(ContestStatus.PlayerRanking);
+
+        // TODO: Send messages to contestants
+
+        return contestRepository.save(contest);
     }
 
 

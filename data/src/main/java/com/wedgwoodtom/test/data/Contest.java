@@ -1,6 +1,5 @@
 package com.wedgwoodtom.test.data;
 
-import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,11 +8,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.*;
 
 @Document
-public class Contest extends BaseDomainObject
+public class Contest extends BaseObject
 {
     @Indexed
     private String title;
 
+    private ContestStatus status = ContestStatus.Planned;
     private Boolean active;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -24,9 +24,12 @@ public class Contest extends BaseDomainObject
 
     @DBRef
     private List<Player> playerList = new ArrayList<>();
+    @DBRef
+    private List<Player> disqualifiedPlayers = new ArrayList<>();
 
     @DBRef
     private List<Entry> entryList = new ArrayList<>();
+
 
 //    @DBRef
 //    private Map<Player, Entry> playerToEntryMap = new HashMap<>();
@@ -123,7 +126,6 @@ public class Contest extends BaseDomainObject
 //        this.playerEntryRankings = playerEntryRankings;
 //    }
 
-
     public List<PlayerRankings> getPlayerRankingsList()
     {
         return playerRankingsList;
@@ -132,5 +134,25 @@ public class Contest extends BaseDomainObject
     public void setPlayerRankingsList(List<PlayerRankings> playerRankingsList)
     {
         this.playerRankingsList = playerRankingsList;
+    }
+
+    public List<Player> getDisqualifiedPlayers()
+    {
+        return disqualifiedPlayers;
+    }
+
+    public void setDisqualifiedPlayers(List<Player> disqualifiedPlayers)
+    {
+        this.disqualifiedPlayers = disqualifiedPlayers;
+    }
+
+    public ContestStatus getStatus()
+    {
+        return status;
+    }
+
+    public void setStatus(ContestStatus status)
+    {
+        this.status = status;
     }
 }

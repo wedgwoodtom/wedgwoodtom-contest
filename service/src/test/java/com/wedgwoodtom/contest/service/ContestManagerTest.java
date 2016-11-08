@@ -44,8 +44,8 @@ public class ContestManagerTest
         oliver = contestManager.save(new Player("Oliver August", "Matthews", "oliver@sake.com"));
         carter = contestManager.save(new Player("Carter", "Beauford", "carter@jimmi.com"));
 
-        entry1 = contestManager.save(new Entry("Routine 1", URI.create("url1"), dave));
-        entry2 = contestManager.save(new Entry("Routine 2", URI.create("url2"), oliver));
+        entry1 = contestManager.save(new Entry(dave, "Routine 1", "https://www.youtube.com/watch?v=rIN6sjaKSHs"));
+        entry2 = contestManager.save(new Entry(oliver, "Routine 2", "https://www.youtube.com/watch?v=40Bll2hy17A"));
     }
 
     @Test
@@ -118,9 +118,9 @@ public class ContestManagerTest
 
         contestManager.addPlayerToContest(carter, freestyle1);
         Contest updatedContest = contestManager.findContestById(freestyle1.idAsString());
-        assertThat(contest.getPlayerList().size()).isEqualTo(updatedContest.getPlayerList().size()-1);
+        assertThat(contest.getPlayerList().size()).isEqualTo(updatedContest.getPlayerList().size() - 1);
         Player updatedPlayer = contestManager.findPlayerById(carter.idAsString());
-        assertThat(player.getContests().size()).isEqualTo(updatedPlayer.getContests().size()-1);
+        assertThat(player.getContests().size()).isEqualTo(updatedPlayer.getContests().size() - 1);
 
         contestManager.removePlayerFromContest(carter, freestyle1);
         updatedContest = contestManager.findContestById(freestyle1.idAsString());
@@ -160,7 +160,7 @@ public class ContestManagerTest
         Contest contest = contestManager.findContestById(freestyle1.idAsString());
         assertThat(contest.getPlayerRankingsList().size()).isEqualTo(0);
 
-        PlayerRankings davesRankings = contestManager.save(new PlayerRankings(contest, dave,  Arrays.asList(entry1, entry2)));
+        PlayerRankings davesRankings = contestManager.save(new PlayerRankings(contest, dave, Arrays.asList(entry1, entry2)));
         contest.getPlayerRankingsList().add(davesRankings);
         contestManager.save(contest);
 
@@ -180,7 +180,7 @@ public class ContestManagerTest
         assertThat(playerRankings1).isNull();
 
         Contest contest = contestManager.findContestById(freestyle1.idAsString());
-        PlayerRankings rankings = contestManager.save(new PlayerRankings(contest, oliver,  Arrays.asList(entry1, entry2)));
+        PlayerRankings rankings = contestManager.save(new PlayerRankings(contest, oliver, Arrays.asList(entry1, entry2)));
         contest.getPlayerRankingsList().add(rankings);
         contestManager.save(contest);
 
@@ -202,11 +202,49 @@ public class ContestManagerTest
     @Test
     public void testSetupTestContestData()
     {
+        // contests
+
+        // players
+        Player john = contestManager.save(new Player("John", "Smith", "john@fly.com"));
+
+        // players to contest
+        contestManager.addPlayerToContest(dave, freestyle1);
+        contestManager.addPlayerToContest(carter, freestyle1);
+        contestManager.addPlayerToContest(oliver, freestyle1);
+        contestManager.addPlayerToContest(john, freestyle1);
+
+        contestManager.addContestEntry(freestyle1,
+                contestManager.save(new Entry(dave, "My VF Entry", "https://www.youtube.com/watch?v=rIN6sjaKSHs")));
+        contestManager.addContestEntry(freestyle1,
+                contestManager.save(new Entry(carter, "My VF Entry", "https://www.youtube.com/watch?v=40Bll2hy17A")));
+
+        // start the contest
+        Contest startedContest = contestManager.startPlayerRanking(freestyle1);
+
+        assertThat(startedContest.getDisqualifiedPlayers().size()).isEqualTo(2);
+        assertThat(startedContest.getDisqualifiedPlayers()).contains(oliver, john);
+
+        assertThat(startedContest.getPlayerList().size()).isEqualTo(2);
+        assertThat(startedContest.getPlayerList()).contains(dave, carter);
+
+        startedContest.getPlayerList()
+                .forEach(player -> {
+                    PlayerRankings playerRankings = contestManager.findPlayerRankings(player, startedContest);
+                    assertThat(playerRankings).isNotNull();
+                    assertThat(playerRankings.getPlayer()).isEqualTo(player);
+                });
+
+        startedContest.getDisqualifiedPlayers()
+                .forEach(player -> {
+                    PlayerRankings playerRankings = contestManager.findPlayerRankings(player, startedContest);
+                    assertThat(playerRankings).isNull();
+                });
+
 
     }
 
-    // TODO: Should I just bag all the repository stuff and just use MongoTemplate?
 
+    // TODO: Should I just bag all the repository stuff and just use MongoTemplate?
 
 
 }

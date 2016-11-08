@@ -1,7 +1,6 @@
 package com.wedgwoodtom.test.data;
 
 import org.springframework.data.annotation.PersistenceConstructor;
-import org.springframework.data.mongodb.core.CollectionCallback;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.*;
 
 @Document
-public class Player extends BaseDomainObject
+public class Player extends BaseObject
 {
     // TODO: Need to add
     // TODO: Player videos for each contest they enter

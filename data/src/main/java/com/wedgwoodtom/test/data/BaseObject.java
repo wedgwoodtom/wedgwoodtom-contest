@@ -6,7 +6,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 
-public class BaseDomainObject
+public class BaseObject
 {
 
     @Id
@@ -35,9 +35,9 @@ public class BaseDomainObject
     public boolean equals(Object o)
     {
         if (this == o) return true;
-        if (!(o instanceof BaseDomainObject)) return false;
+        if (!(o instanceof BaseObject)) return false;
 
-        BaseDomainObject that = (BaseDomainObject) o;
+        BaseObject that = (BaseObject) o;
 
         return id != null ? id.equals(that.id) : that.id == null;
     }

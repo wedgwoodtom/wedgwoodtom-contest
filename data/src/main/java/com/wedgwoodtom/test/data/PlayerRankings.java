@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Document
-public class PlayerRankings extends BaseDomainObject
+public class PlayerRankings extends BaseObject
 {
     @DBRef
     private Player player;

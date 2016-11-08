@@ -4,19 +4,17 @@ package com.wedgwoodtom.test.data;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.net.URI;
-
 @Document
-public class Entry extends BaseDomainObject
+public class Entry extends BaseObject
 {
     private String title;
 
     @DBRef
     private Player player;
 
-    private URI videoUrl;
+    private String videoUrl;
 
-    public Entry(String title, URI videoUrl, Player player)
+    public Entry(Player player, String title, String videoUrl)
     {
         this.title = title;
         this.videoUrl = videoUrl;
@@ -33,12 +31,12 @@ public class Entry extends BaseDomainObject
         this.player = player;
     }
 
-    public URI getVideoUrl()
+    public String getVideoUrl()
     {
         return videoUrl;
     }
 
-    public void setVideoUrl(URI videoUrl)
+    public void setVideoUrl(String videoUrl)
     {
         this.videoUrl = videoUrl;
     }
