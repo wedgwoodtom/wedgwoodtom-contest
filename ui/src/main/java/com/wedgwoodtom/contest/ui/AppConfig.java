@@ -1,8 +1,8 @@
 package com.wedgwoodtom.contest.ui;
 
 import com.mongodb.MongoClient;
-import com.wedgwoodtom.contest.service.ContestManager;
-import com.wedgwoodtom.contest.service.PlayerRepository;
+//import com.wedgwoodtom.contest.service.ContestManager;
+//import com.wedgwoodtom.contest.service.PlayerRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -30,11 +30,11 @@ public class AppConfig
 //    {
 //    }
 
-    @Bean
-    public ContestManager contestManager()
-    {
-        return new ContestManager();
-    }
+//    @Bean
+//    public ContestManager contestManager()
+//    {
+//        return new ContestManager();
+//    }
 
 
 }

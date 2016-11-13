@@ -1,6 +1,6 @@
 package com.wedgwoodtom.contest.ui;
 
-import com.wedgwoodtom.contest.service.ContestManager;
+//import com.wedgwoodtom.contest.service.ContestManager;
 import com.wedgwoodtom.test.data.Contest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -39,7 +39,7 @@ public class VaadinUI extends UI
     private final Button addNewBtn;
 
     @Autowired
-    public VaadinUI(CustomerRepository repo, CustomerEditor editor, ContestManager contestManager)
+    public VaadinUI(CustomerRepository repo, CustomerEditor editor)
     {
         this.repo = repo;
         this.editor = editor;
@@ -47,7 +47,7 @@ public class VaadinUI extends UI
         this.filter = new TextField();
         this.addNewBtn = new Button("New customer", FontAwesome.PLUS);
 
-        List<Contest> contestList = contestManager.findAllContests();
+//        List<Contest> contestList = contestManager.findAllContests();
         int y = 9;
 
     }
