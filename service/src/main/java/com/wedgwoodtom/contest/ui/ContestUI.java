@@ -17,13 +17,16 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
+import javax.annotation.Resource;
+
 @SpringUI
 @Theme("valo")
 public class ContestUI extends UI
 {
-    @Autowired
+    @Resource
     private ContestManager contestManager;
 
+    @Resource
     private ContestEditor editor;
 
     final Grid grid;
@@ -33,10 +36,9 @@ public class ContestUI extends UI
     private final Button addNewBtn;
 
 
-    @Autowired
-    public ContestUI(ContestEditor editor)
+    public ContestUI()
     {
-        this.editor = editor;
+//        this.editor = editor;
         this.grid = new Grid();
         this.filter = new TextField();
         this.addNewBtn = new Button("New Contest", FontAwesome.PLUS);
