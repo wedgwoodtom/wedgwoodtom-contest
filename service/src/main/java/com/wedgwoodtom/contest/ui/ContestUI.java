@@ -2,7 +2,6 @@ package com.wedgwoodtom.contest.ui;
 
 import com.wedgwoodtom.contest.service.ContestManager;
 import com.wedgwoodtom.test.data.Contest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import com.vaadin.annotations.Theme;
@@ -23,6 +22,11 @@ import javax.annotation.Resource;
 @Theme("valo")
 public class ContestUI extends UI
 {
+
+    // TODO: Continue working on this example to add editing of dates, etc
+    //  https://vaadin.com/docs/-/part/framework/tutorial.html
+
+
     @Resource
     private ContestManager contestManager;
 
