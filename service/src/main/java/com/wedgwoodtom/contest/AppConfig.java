@@ -1,4 +1,4 @@
-package com.wedgwoodtom.contest.service;
+package com.wedgwoodtom.contest;
 
 
 import com.mongodb.MongoClient;

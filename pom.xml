@@ -13,7 +13,7 @@
     <modules>
         <module>data</module>
         <module>service</module>
-        <module>ui</module>
+        <!--<module>ui</module>-->
     </modules>
 
     <dependencies>
