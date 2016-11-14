@@ -30,8 +30,6 @@ public class ContestEditor  extends VerticalLayout
 
     /* Fields to edit properties in Customer entity */
     TextField title = new TextField("Title");
-    TextField firstName = new TextField("First name");
-    TextField lastName = new TextField("Last name");
 
     /* Action buttons */
     Button save = new Button("Save", FontAwesome.SAVE);
@@ -44,7 +42,7 @@ public class ContestEditor  extends VerticalLayout
     {
         this.contestManager = contestManager;
 
-        addComponents(title, firstName, lastName, actions);
+        addComponents(title, actions);
 
         // Configure and style components
         setSpacing(true);
@@ -80,7 +78,7 @@ public class ContestEditor  extends VerticalLayout
         }
         cancel.setVisible(persisted);
 
-        // Bind customer properties to similarly named fields
+        // Bind contest properties to similarly named fields
         // Could also use annotation or "manual binding" or programmatically
         // moving values from fields to entities before saving
         BeanFieldGroup.bindFieldsUnbuffered(contest, this);
@@ -90,7 +88,7 @@ public class ContestEditor  extends VerticalLayout
         // A hack to ensure the whole form is visible
         save.focus();
         // Select all text in firstName field automatically
-        firstName.selectAll();
+        title.selectAll();
     }
 
     public void setChangeHandler(ContestEditor.ChangeHandler h)

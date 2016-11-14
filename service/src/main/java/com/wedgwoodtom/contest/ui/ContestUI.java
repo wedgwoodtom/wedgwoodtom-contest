@@ -24,13 +24,14 @@ public class ContestUI extends UI
     @Autowired
     private ContestManager contestManager;
 
-    private final ContestEditor editor;
+    private ContestEditor editor;
 
     final Grid grid;
 
     final TextField filter;
 
     private final Button addNewBtn;
+
 
     @Autowired
     public ContestUI(ContestEditor editor)
@@ -81,8 +82,7 @@ public class ContestUI extends UI
         addNewBtn.addClickListener(e -> editor.editContest(new Contest("")));
 
         // Listen changes made by the editor, refresh data from backend
-        editor.setChangeHandler(() ->
-        {
+        editor.setChangeHandler(() -> {
             editor.setVisible(false);
             listContests(filter.getValue());
         });
@@ -109,7 +109,6 @@ public class ContestUI extends UI
 //                    repo.findByLastNameStartsWithIgnoreCase(text)));
         }
     }
-
 
     protected void setContestManager(ContestManager contestManager)
     {
