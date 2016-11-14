@@ -31,6 +31,11 @@ public class ContestManager
         return contestRepository.save(contest);
     }
 
+    public void delete(Contest contest)
+    {
+        contestRepository.delete(contest);
+    }
+
     public Player save(Player player)
     {
         return playerRepository.save(player);

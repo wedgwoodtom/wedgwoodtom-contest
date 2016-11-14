@@ -17,9 +17,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-import javax.annotation.Resource;
-import java.util.List;
-
 @SpringUI
 @Theme("valo")
 public class ContestUI extends UI
@@ -27,8 +24,7 @@ public class ContestUI extends UI
     @Autowired
     private ContestManager contestManager;
 
-    private final CustomerRepository repo;
-    private final CustomerEditor editor;
+    private final ContestEditor editor;
 
     final Grid grid;
 
@@ -37,13 +33,12 @@ public class ContestUI extends UI
     private final Button addNewBtn;
 
     @Autowired
-    public ContestUI(CustomerRepository repo, CustomerEditor editor)
+    public ContestUI(ContestEditor editor)
     {
-        this.repo = repo;
         this.editor = editor;
         this.grid = new Grid();
         this.filter = new TextField();
-        this.addNewBtn = new Button("New customer", FontAwesome.PLUS);
+        this.addNewBtn = new Button("New Contest", FontAwesome.PLUS);
     }
 
     @Override
@@ -68,7 +63,7 @@ public class ContestUI extends UI
         // Hook logic to components
 
         // Replace listing with filtered content when user changes filter
-        filter.addTextChangeListener(e -> listCustomers(e.getText()));
+        filter.addTextChangeListener(e -> listContests(e.getText()));
 
         // Connect selected Customer to editor or hide if none is selected
         grid.addSelectionListener(e ->
@@ -78,25 +73,25 @@ public class ContestUI extends UI
                 editor.setVisible(false);
             } else
             {
-                editor.editCustomer((Customer) grid.getSelectedRow());
+                editor.editContest((Contest) grid.getSelectedRow());
             }
         });
 
         // Instantiate and edit new Customer the new button is clicked
-        addNewBtn.addClickListener(e -> editor.editCustomer(new Customer("", "")));
+        addNewBtn.addClickListener(e -> editor.editContest(new Contest("")));
 
         // Listen changes made by the editor, refresh data from backend
         editor.setChangeHandler(() ->
         {
             editor.setVisible(false);
-            listCustomers(filter.getValue());
+            listContests(filter.getValue());
         });
 
         // Initialize listing
-        listCustomers(null);
+        listContests(null);
     }
 
-    void listCustomers(String text)
+    void listContests(String text)
     {
         if (StringUtils.isEmpty(text))
         {
