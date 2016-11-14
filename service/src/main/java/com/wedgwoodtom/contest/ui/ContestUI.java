@@ -22,13 +22,12 @@ import java.util.List;
 
 @SpringUI
 @Theme("valo")
-public class VaadinUI extends UI
+public class ContestUI extends UI
 {
     @Autowired
     private ContestManager contestManager;
 
     private final CustomerRepository repo;
-
     private final CustomerEditor editor;
 
     final Grid grid;
@@ -38,19 +37,13 @@ public class VaadinUI extends UI
     private final Button addNewBtn;
 
     @Autowired
-    public VaadinUI(CustomerRepository repo, CustomerEditor editor,
-                    ContestManager contestManager)
+    public ContestUI(CustomerRepository repo, CustomerEditor editor)
     {
         this.repo = repo;
         this.editor = editor;
         this.grid = new Grid();
         this.filter = new TextField();
         this.addNewBtn = new Button("New customer", FontAwesome.PLUS);
-        this.contestManager = contestManager;
-
-        List<Contest> contestList = contestManager.findAllContests();
-        int y = 9;
-
     }
 
     @Override
@@ -103,7 +96,6 @@ public class VaadinUI extends UI
         listCustomers(null);
     }
 
-    // tag::listCustomers[]
     void listCustomers(String text)
     {
         if (StringUtils.isEmpty(text))
@@ -112,14 +104,20 @@ public class VaadinUI extends UI
                     new BeanItemContainer(Contest.class, contestManager.findAllContests()));
 //            grid.setContainerDataSource(
 //                    new BeanItemContainer(Customer.class, repo.findAll()));
-        } else
+        }
+        else
         {
+            // TODO: Add filter here
             grid.setContainerDataSource(
                     new BeanItemContainer(Contest.class, contestManager.findAllContests()));
 //            grid.setContainerDataSource(new BeanItemContainer(Customer.class,
 //                    repo.findByLastNameStartsWithIgnoreCase(text)));
         }
     }
-    // end::listCustomers[]
 
+
+    protected void setContestManager(ContestManager contestManager)
+    {
+        this.contestManager = contestManager;
+    }
 }
