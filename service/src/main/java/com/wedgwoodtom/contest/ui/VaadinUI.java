@@ -24,9 +24,8 @@ import java.util.List;
 @Theme("valo")
 public class VaadinUI extends UI
 {
-
-//	@Autowired
-	private ContestManager contestManager;
+    @Autowired
+    private ContestManager contestManager;
 
     private final CustomerRepository repo;
 
@@ -68,7 +67,8 @@ public class VaadinUI extends UI
         mainLayout.setSpacing(true);
 
         grid.setHeight(300, Unit.PIXELS);
-        grid.setColumns("id", "firstName", "lastName");
+//        grid.setColumns("id", "firstName", "lastName");
+        grid.setColumns("title", "status");
 
         filter.setInputPrompt("Filter by last name");
 
@@ -109,11 +109,15 @@ public class VaadinUI extends UI
         if (StringUtils.isEmpty(text))
         {
             grid.setContainerDataSource(
-                    new BeanItemContainer(Customer.class, repo.findAll()));
+                    new BeanItemContainer(Contest.class, contestManager.findAllContests()));
+//            grid.setContainerDataSource(
+//                    new BeanItemContainer(Customer.class, repo.findAll()));
         } else
         {
-            grid.setContainerDataSource(new BeanItemContainer(Customer.class,
-                    repo.findByLastNameStartsWithIgnoreCase(text)));
+            grid.setContainerDataSource(
+                    new BeanItemContainer(Contest.class, contestManager.findAllContests()));
+//            grid.setContainerDataSource(new BeanItemContainer(Customer.class,
+//                    repo.findByLastNameStartsWithIgnoreCase(text)));
         }
     }
     // end::listCustomers[]
