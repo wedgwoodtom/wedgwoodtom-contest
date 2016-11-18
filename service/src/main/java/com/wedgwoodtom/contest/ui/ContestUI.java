@@ -1,5 +1,7 @@
 package com.wedgwoodtom.contest.ui;
 
+import com.vaadin.navigator.Navigator;
+import com.vaadin.ui.*;
 import com.wedgwoodtom.contest.service.ContestManager;
 import com.wedgwoodtom.test.data.Contest;
 import org.springframework.util.StringUtils;
@@ -9,16 +11,10 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 import javax.annotation.Resource;
 
-@SpringUI
+//@SpringUI
 @Theme("valo")
 public class ContestUI extends UI
 {
@@ -51,6 +47,25 @@ public class ContestUI extends UI
     @Override
     protected void init(VaadinRequest request)
     {
+
+//        Navigator navigator = new Navigator(this, this);
+        // TODO: create your own view provider
+//        navigator.addProvider(viewProvider);
+        // TODO: or add
+//        navigator.addView(DashboardView.VIEW_NAME, DashboardView.class);
+//        navigator.addView(OrderView.VIEW_NAME, OrderView.class);
+//        navigator.addView(AboutView.VIEW_NAME, AboutView.class);
+//        navigator.navigateTo("hello");
+        // https://vaadin.com/wiki/-/wiki/main/View+navigation+with+Vaadin+Designer
+
+        // login page
+        // https://examples.javacodegeeks.com/enterprise-java/vaadin/vaadin-login-example/
+        // https://github.com/degiere/vaadin-navigation-example/blob/master/src/main/java/net/degiere/ui/Menu.java
+        // https://github.com/degiere/vaadin-navigation-example
+        // https://books.google.com/books?id=0y_rmSUDf6cC&pg=PT223&lpg=PT223&dq=vaadin+Navigator+example&source=bl&ots=ISwqavKjRF&sig=wPSfRhyld2o-qZqtCSCW5LyQqHY&hl=en&sa=X&ved=0ahUKEwidqK3ljarQAhUFxmMKHUdnDE04ChDoAQhPMAk#v=onepage&q=vaadin%20Navigator%20example&f=false
+
+
+
         // build layout
         HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
         VerticalLayout mainLayout = new VerticalLayout(actions, grid, editor);
@@ -77,6 +92,8 @@ public class ContestUI extends UI
         {
             if (e.getSelected().isEmpty())
             {
+                Notification.show("Welcome to the Animal Farm", Notification.Type.ERROR_MESSAGE);
+
                 editor.setVisible(false);
             } else
             {
