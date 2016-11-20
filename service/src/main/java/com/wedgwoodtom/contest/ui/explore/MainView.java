@@ -21,7 +21,6 @@ public class MainView extends VerticalLayout implements View
         addComponent(new Menu());
         addComponent(headingLabel());
         addComponent(new TableExample());
-
     }
 
     @Override

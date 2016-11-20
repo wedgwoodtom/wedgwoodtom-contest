@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 
-@SpringUI
+//@SpringUI
 @Theme("valo")
 public class ExploreVUI extends UI
 {
