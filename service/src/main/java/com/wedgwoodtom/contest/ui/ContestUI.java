@@ -69,6 +69,10 @@ public class ContestUI extends UI
 
     public void editContest(Contest contest)
     {
+        if (contest == null)
+        {
+            return;
+        }
         contestEditor.editContest(contest);
         navigator.navigateTo(ContestEditor.NAME);
     }

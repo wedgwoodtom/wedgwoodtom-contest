@@ -37,10 +37,8 @@ public class ContestView extends VerticalLayout implements View
 
         setSizeFull();
         setSpacing(true);
-//        addComponent(new TableExample());
 
         HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn, editButton);
-//        VerticalLayout mainLayout = new VerticalLayout(actions, grid, editor);
         VerticalLayout mainLayout = new VerticalLayout(actions, grid);
         addComponent(mainLayout);
 
@@ -113,10 +111,8 @@ public class ContestView extends VerticalLayout implements View
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event)
     {
-        Notification.show("Showing view: Main!");
-
+//        Notification.show("Showing view: Main!");
         UI myUI = getUI();
-
         myUI.getNavigator();
 
     }
