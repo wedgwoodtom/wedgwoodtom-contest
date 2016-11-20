@@ -31,6 +31,7 @@ public class ContestUI extends UI
     //  thread local functionality of Vaadin
 
     private ContestView contestView;
+
     @Resource
     private ContestEditor contestEditor;
 
@@ -59,7 +60,7 @@ public class ContestUI extends UI
         // Adding an instance allows it to maintain state (which I prefer)
         navigator.addView(ContestView.NAME, contestView);
         navigator.addView(ContestEditor.NAME, contestEditor);
-        navigator.addView(InputPage.NAME, InputPage.class);
+        navigator.addView(VoteView.NAME, VoteView.class);
         navigator.addView(DataPage.NAME, DataPage.class);
         navigator.addView(VideoViewerView.NAME, VideoViewerView.class);
 
