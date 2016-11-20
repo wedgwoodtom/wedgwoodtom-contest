@@ -51,6 +51,7 @@ public class ContestUI extends UI
         navigator.addView(ContestEditor.NAME, contestEditor);
         navigator.addView(InputPage.NAME, InputPage.class);
         navigator.addView(DataPage.NAME, DataPage.class);
+        navigator.addView(VideoViewerView.NAME, VideoViewerView.class);
 
         layout.addComponent(new MainMenuBar(navigator));
         layout.addComponent(contentPanel);
