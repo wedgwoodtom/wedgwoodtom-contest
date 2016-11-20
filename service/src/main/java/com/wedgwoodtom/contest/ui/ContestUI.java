@@ -1,6 +1,7 @@
 package com.wedgwoodtom.contest.ui;
 
 import com.vaadin.annotations.Theme;
+import com.vaadin.annotations.Widgetset;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
@@ -13,7 +14,14 @@ import com.wedgwoodtom.test.data.Contest;
 import javax.annotation.Resource;
 
 @SpringUI
+//@Theme("reindeer")
+//@Theme("runo")
+//@Theme("liferay")
+//@Theme("chameleon")
+//@Theme("base")
 @Theme("valo")
+//@Widgetset("org.vaadin.teemu.ratingstars.gwt.RatingStarsWidgetset")
+//@Widgetset("org/vaadin/teemu/ratingstars/gwt/RatingStarsWidgetset.gwt.xmlorg.vaadin.teemu.ratingstars.RatingStarsWidgetset")
 public class ContestUI extends UI
 {
     @Resource
@@ -36,6 +44,8 @@ public class ContestUI extends UI
     @Override
     protected void init(VaadinRequest request)
     {
+//        setTheme("");
+
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         setContent(layout);
