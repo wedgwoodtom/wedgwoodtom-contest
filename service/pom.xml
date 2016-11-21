@@ -108,6 +108,17 @@
             <!--<version>2.1</version>-->
         <!--</dependency>-->
 
+        <!--<dependency>-->
+            <!--<groupId>com.vaadin.addon</groupId>-->
+            <!--<artifactId>vaadin-charts</artifactId>-->
+            <!--<version>3.2.0</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.vaadin.addon</groupId>-->
+            <!--<artifactId>jfreechartwrapper</artifactId>-->
+            <!--<version>3.0.3</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 
@@ -133,13 +144,22 @@
                     <!--&lt;!&ndash;<compileReport>true</compileReport>&ndash;&gt;-->
                     <!--&lt;!&ndash;<runTarget>http://localhost:8080/</runTarget>&ndash;&gt;-->
                     <!--&lt;!&ndash;<widgetsetMode>cdn</widgetsetMode>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<extraJvmArgs>-Xmx2g -Xss1024k</extraJvmArgs>&ndash;&gt;-->
+                    <!--<webappDirectory>${basedir}/target/classes/VAADIN/widgetsets</webappDirectory>-->
+                    <!--<draftCompile>false</draftCompile>-->
+                    <!--<compileReport>false</compileReport>-->
+                    <!--<style>OBF</style>-->
+                    <!--<runTarget>http://localhost:8080/simple</runTarget>-->
+                    <!--<module>AppWidgetset</module>-->
+
                 <!--</configuration>-->
                 <!--<executions>-->
                     <!--<execution>-->
                         <!--<goals>-->
-                            <!--<goal>compile-theme</goal>-->
+                            <!--&lt;!&ndash;<goal>compile-theme</goal>&ndash;&gt;-->
                             <!--<goal>update-widgetset</goal>-->
-                            <!--<goal>compile</goal>-->
+                            <!--&lt;!&ndash;<goal>compile</goal>&ndash;&gt;-->
                         <!--</goals>-->
                     <!--</execution>-->
                 <!--</executions>-->

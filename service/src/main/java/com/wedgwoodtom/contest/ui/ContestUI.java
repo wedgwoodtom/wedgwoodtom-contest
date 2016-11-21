@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 //@Theme("chameleon")
 //@Theme("base")
 @Theme("valo")
+//@Widgetset("AppWidgetset")
 //@Widgetset("org.vaadin.teemu.ratingstars.gwt.RatingStarsWidgetset")
 //@Widgetset("org/vaadin/teemu/ratingstars/gwt/RatingStarsWidgetset.gwt.xmlorg.vaadin.teemu.ratingstars.RatingStarsWidgetset")
 public class ContestUI extends UI
@@ -61,7 +62,7 @@ public class ContestUI extends UI
         navigator.addView(ContestView.NAME, contestView);
         navigator.addView(ContestEditor.NAME, contestEditor);
         navigator.addView(VoteView.NAME, VoteView.class);
-        navigator.addView(DataPage.NAME, DataPage.class);
+        navigator.addView(ContestResultsView.NAME, ContestResultsView.class);
         navigator.addView(VideoViewerView.NAME, VideoViewerView.class);
 
         layout.addComponent(new MainMenuBar(navigator));

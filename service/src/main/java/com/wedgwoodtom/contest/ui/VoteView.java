@@ -26,8 +26,6 @@ public class VoteView extends VerticalLayout implements View
 //        contestManager = ContestUI.getContestUI().getContestManager();
 
 
-
-
 // Create a table and add a style to
 // allow setting the row height in theme.
         Table table = new Table();

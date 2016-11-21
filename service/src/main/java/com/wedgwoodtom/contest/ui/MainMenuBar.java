@@ -13,7 +13,7 @@ public class MainMenuBar extends MenuBar
         addItem("Contests", FontAwesome.LIST, (item -> navigator.navigateTo(ContestView.NAME)));
         addItem("Vote", FontAwesome.THUMBS_UP, (item -> navigator.navigateTo(VoteView.NAME)));
         addItem("Rank", FontAwesome.LIST_OL, (item -> navigator.navigateTo(VoteView.NAME)));
-        addItem("Results", FontAwesome.LEGAL, (item -> navigator.navigateTo(ContestView.NAME)));
+        addItem("Results", FontAwesome.LEGAL, (item -> navigator.navigateTo(ContestResultsView.NAME)));
         addItem("Video", FontAwesome.LEGAL, (item -> navigator.navigateTo(VideoViewerView.NAME)));
     }
 
