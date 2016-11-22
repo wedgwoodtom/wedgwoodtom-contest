@@ -62,6 +62,7 @@ public class ContestUI extends UI
         navigator.addView(ContestView.NAME, contestView);
         navigator.addView(ContestEditor.NAME, contestEditor);
         navigator.addView(VoteView.NAME, VoteView.class);
+        navigator.addView(VoteView2.NAME, VoteView2.class);
         navigator.addView(ContestResultsView.NAME, ContestResultsView.class);
         navigator.addView(VideoViewerView.NAME, VideoViewerView.class);
 
