@@ -96,6 +96,30 @@
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.vaadin.addons</groupId>
+            <artifactId>mediaelementjs-player</artifactId>
+            <version>1.3.3</version>
+        </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.vaadin.addons</groupId>-->
+            <!--<artifactId>ratingstars</artifactId>-->
+            <!--<version>2.1</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>com.vaadin.addon</groupId>-->
+            <!--<artifactId>vaadin-charts</artifactId>-->
+            <!--<version>3.2.0</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.vaadin.addon</groupId>-->
+            <!--<artifactId>jfreechartwrapper</artifactId>-->
+            <!--<version>3.0.3</version>-->
+        <!--</dependency>-->
+
     </dependencies>
 
     <build>
@@ -105,7 +129,45 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.4.1.RELEASE</version>
             </plugin>
+
+            <!--This is needed in order to use the RatingsWidget-->
+            <!--<plugin>-->
+                <!--<groupId>com.vaadin</groupId>-->
+                <!--<artifactId>vaadin-maven-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--&lt;!&ndash;<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<noServer>true</noServer>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<draftCompile>false</draftCompile>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<style>OBF</style>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<compileReport>true</compileReport>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<runTarget>http://localhost:8080/</runTarget>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<widgetsetMode>cdn</widgetsetMode>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<extraJvmArgs>-Xmx2g -Xss1024k</extraJvmArgs>&ndash;&gt;-->
+                    <!--<webappDirectory>${basedir}/target/classes/VAADIN/widgetsets</webappDirectory>-->
+                    <!--<draftCompile>false</draftCompile>-->
+                    <!--<compileReport>false</compileReport>-->
+                    <!--<style>OBF</style>-->
+                    <!--<runTarget>http://localhost:8080/simple</runTarget>-->
+                    <!--<module>AppWidgetset</module>-->
+
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--&lt;!&ndash;<goal>compile-theme</goal>&ndash;&gt;-->
+                            <!--<goal>update-widgetset</goal>-->
+                            <!--&lt;!&ndash;<goal>compile</goal>&ndash;&gt;-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+
         </plugins>
+
+
     </build>
 
     <repositories>
@@ -113,6 +175,10 @@
             <id>spring-releases</id>
             <name>Spring Releases</name>
             <url>https://repo.spring.io/libs-release</url>
+        </repository>
+        <repository>
+            <id>vaadin-addons</id>
+            <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
     </repositories>
     <pluginRepositories>

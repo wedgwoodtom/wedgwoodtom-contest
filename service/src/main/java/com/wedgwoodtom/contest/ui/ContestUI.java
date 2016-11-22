@@ -1,140 +1,114 @@
 package com.wedgwoodtom.contest.ui;
 
-import com.vaadin.navigator.Navigator;
-import com.vaadin.ui.*;
-import com.wedgwoodtom.contest.service.ContestManager;
-import com.wedgwoodtom.test.data.Contest;
-import org.springframework.util.StringUtils;
-
 import com.vaadin.annotations.Theme;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.server.FontAwesome;
+import com.vaadin.annotations.Widgetset;
+import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.spring.annotation.SpringUI;
+import com.vaadin.ui.*;
+import com.wedgwoodtom.contest.service.ContestManager;
+import com.wedgwoodtom.contest.ui.bestpractices.DataPage;
+import com.wedgwoodtom.contest.ui.bestpractices.InputPage;
+import com.wedgwoodtom.test.data.Contest;
 
 import javax.annotation.Resource;
 
-//@SpringUI
+@SpringUI
+//@Theme("reindeer")
+//@Theme("runo")
+//@Theme("liferay")
+//@Theme("chameleon")
+//@Theme("base")
 @Theme("valo")
+//@Widgetset("AppWidgetset")
+//@Widgetset("org.vaadin.teemu.ratingstars.gwt.RatingStarsWidgetset")
+//@Widgetset("org/vaadin/teemu/ratingstars/gwt/RatingStarsWidgetset.gwt.xmlorg.vaadin.teemu.ratingstars.RatingStarsWidgetset")
 public class ContestUI extends UI
 {
-
-    // TODO: Continue working on this example to add editing of dates, etc
-    //  https://vaadin.com/docs/-/part/framework/tutorial.html
-
-
     @Resource
     private ContestManager contestManager;
 
+    // Wow, this works, but not sure that I want to rely on it since I can just use the built-in
+    //  thread local functionality of Vaadin
+
+    private ContestView contestView;
+
     @Resource
-    private ContestEditor editor;
+    private ContestEditor contestEditor;
 
-    final Grid grid;
 
-    final TextField filter;
-
-    private final Button addNewBtn;
-
+    private Navigator navigator;
 
     public ContestUI()
     {
-//        this.editor = editor;
-        this.grid = new Grid();
-        this.filter = new TextField();
-        this.addNewBtn = new Button("New Contest", FontAwesome.PLUS);
     }
 
     @Override
     protected void init(VaadinRequest request)
     {
+//        setTheme("");
 
-//        Navigator navigator = new Navigator(this, this);
-        // TODO: create your own view provider
-//        navigator.addProvider(viewProvider);
-        // TODO: or add
-//        navigator.addView(DashboardView.VIEW_NAME, DashboardView.class);
-//        navigator.addView(OrderView.VIEW_NAME, OrderView.class);
-//        navigator.addView(AboutView.VIEW_NAME, AboutView.class);
-//        navigator.navigateTo("hello");
-        // https://vaadin.com/wiki/-/wiki/main/View+navigation+with+Vaadin+Designer
+        VerticalLayout layout = new VerticalLayout();
+        layout.setMargin(true);
+        setContent(layout);
 
-        // login page
-        // https://examples.javacodegeeks.com/enterprise-java/vaadin/vaadin-login-example/
-        // https://github.com/degiere/vaadin-navigation-example/blob/master/src/main/java/net/degiere/ui/Menu.java
-        // https://github.com/degiere/vaadin-navigation-example
-        // https://books.google.com/books?id=0y_rmSUDf6cC&pg=PT223&lpg=PT223&dq=vaadin+Navigator+example&source=bl&ots=ISwqavKjRF&sig=wPSfRhyld2o-qZqtCSCW5LyQqHY&hl=en&sa=X&ved=0ahUKEwidqK3ljarQAhUFxmMKHUdnDE04ChDoAQhPMAk#v=onepage&q=vaadin%20Navigator%20example&f=false
+        Panel contentPanel = new Panel("Main Panel");
+        contentPanel.setSizeFull();
 
+        contestView = new ContestView();
 
+        navigator = new Navigator(this, contentPanel);
+        // Adding an instance allows it to maintain state (which I prefer)
+        navigator.addView(ContestView.NAME, contestView);
+        navigator.addView(ContestEditor.NAME, contestEditor);
+        navigator.addView(VoteView.NAME, VoteView.class);
+        navigator.addView(ContestResultsView.NAME, ContestResultsView.class);
+        navigator.addView(VideoViewerView.NAME, VideoViewerView.class);
 
-        // build layout
-        HorizontalLayout actions = new HorizontalLayout(filter, addNewBtn);
-        VerticalLayout mainLayout = new VerticalLayout(actions, grid, editor);
-        setContent(mainLayout);
-
-        // Configure layouts and components
-        actions.setSpacing(true);
-        mainLayout.setMargin(true);
-        mainLayout.setSpacing(true);
-
-        grid.setHeight(300, Unit.PIXELS);
-//        grid.setColumns("id", "firstName", "lastName");
-        grid.setColumns("title", "status");
-
-        filter.setInputPrompt("Filter by last name");
-
-        // Hook logic to components
-
-        // Replace listing with filtered content when user changes filter
-        filter.addTextChangeListener(e -> listContests(e.getText()));
-
-        // Connect selected Customer to editor or hide if none is selected
-        grid.addSelectionListener(e ->
-        {
-            if (e.getSelected().isEmpty())
-            {
-                Notification.show("Welcome to the Animal Farm", Notification.Type.ERROR_MESSAGE);
-
-                editor.setVisible(false);
-            } else
-            {
-                editor.editContest((Contest) grid.getSelectedRow());
-            }
-        });
-
-        // Instantiate and edit new Customer the new button is clicked
-        addNewBtn.addClickListener(e -> editor.editContest(new Contest("")));
-
-        // Listen changes made by the editor, refresh data from backend
-        editor.setChangeHandler(() -> {
-            editor.setVisible(false);
-            listContests(filter.getValue());
-        });
-
-        // Initialize listing
-        listContests(null);
+        layout.addComponent(new MainMenuBar(navigator));
+        layout.addComponent(contentPanel);
+        navigator.navigateTo(ContestView.NAME);
     }
 
-    void listContests(String text)
+    public ContestManager getContestManager()
     {
-        if (StringUtils.isEmpty(text))
-        {
-            grid.setContainerDataSource(
-                    new BeanItemContainer(Contest.class, contestManager.findAllContests()));
-//            grid.setContainerDataSource(
-//                    new BeanItemContainer(Customer.class, repo.findAll()));
-        }
-        else
-        {
-            // TODO: Add filter here
-            grid.setContainerDataSource(
-                    new BeanItemContainer(Contest.class, contestManager.findAllContests()));
-//            grid.setContainerDataSource(new BeanItemContainer(Customer.class,
-//                    repo.findByLastNameStartsWithIgnoreCase(text)));
-        }
+        return contestManager;
     }
 
-    protected void setContestManager(ContestManager contestManager)
+    public static ContestUI getContestUI()
     {
-        this.contestManager = contestManager;
+        return (ContestUI) UI.getCurrent();
     }
+
+    public void editContest(Contest contest)
+    {
+        if (contest == null)
+        {
+            return;
+        }
+        contestEditor.editContest(contest);
+        navigator.navigateTo(ContestEditor.NAME);
+    }
+
+    public void newContest()
+    {
+        contestEditor.newContest();
+        navigator.navigateTo(ContestEditor.NAME);
+    }
+
+    public void showContests()
+    {
+        contestView.listContests(null);
+        navigator.navigateTo(ContestView.NAME);
+    }
+
+    /*
+    try {
+    VaadinSession.getCurrent().getLockInstance().lock();
+    VaadinSession.getCurrent().setAttribute(SESSION_SCOPED_VALUE_ID, "some value");
+} finally {
+    VaadinSession.getCurrent().getLockInstance().unlock();
+}
+     */
+
 }
