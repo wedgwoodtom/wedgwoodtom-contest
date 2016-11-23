@@ -1,17 +1,15 @@
 package com.wedgwoodtom.contest.service;
 
-import com.wedgwoodtom.test.data.Contest;
-import com.wedgwoodtom.test.data.Entry;
-import com.wedgwoodtom.test.data.Player;
-import com.wedgwoodtom.test.data.PlayerRankings;
+import com.wedgwoodtom.test.data.*;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.net.URI;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 //@ContextConfiguration(classes = {SpringMongoConfiguration.class})
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ContestManagerTest
 {
     @Autowired
@@ -36,6 +35,7 @@ public class ContestManagerTest
     {
         contestManager.deleteContests();
         contestManager.deletePlayers();
+        contestManager.deleteRatings();
 
         freestyle1 = contestManager.save(new Contest("Virtual Freestyle 1"));
         freestyle2 = contestManager.save(new Contest("Virtual Freestyle 2"));
@@ -49,7 +49,7 @@ public class ContestManagerTest
     }
 
     @Test
-    public void testSaveAndFindContest()
+    public void test1SaveAndFindContest()
     {
         String title = UUID.randomUUID().toString();
         Contest contest = contestManager.save(new Contest(title));
@@ -79,14 +79,14 @@ public class ContestManagerTest
     }
 
     @Test
-    public void testFindAllContests()
+    public void test2FindAllContests()
     {
         List<Contest> contestList = contestManager.findAllContests();
         assertThat(contestList.size()).isGreaterThanOrEqualTo(2);
     }
 
     @Test
-    public void testAddPlayerToContest()
+    public void test3AddPlayerToContest()
     {
         assertThat(contestManager.findContestById(freestyle1.getId().toString()).getPlayerList().size()).isEqualTo(0);
         assertThat(contestManager.findContestById(freestyle2.getId().toString()).getPlayerList().size()).isEqualTo(0);
@@ -111,7 +111,7 @@ public class ContestManagerTest
     }
 
     @Test
-    public void testRemovePlayerFromContest()
+    public void test4RemovePlayerFromContest()
     {
         Contest contest = contestManager.findContestById(freestyle1.idAsString());
         Player player = contestManager.findPlayerById(carter.idAsString());
@@ -130,7 +130,7 @@ public class ContestManagerTest
     }
 
     @Test
-    public void testAddEntryToContest()
+    public void test5AddEntryToContest()
     {
         Contest contest = contestManager.findContestById(freestyle1.idAsString());
         assertThat(contest.getEntryList().isEmpty()).isTrue();
@@ -144,9 +144,8 @@ public class ContestManagerTest
         assertThat(updatedContest.getEntryList().size()).isEqualTo(2);
     }
 
-
     @Test
-    public void testAddPlayerRankingsToContest()
+    public void test7AddPlayerRankingsToContest()
     {
         Contest contest = contestManager.findContestById(freestyle1.idAsString());
         assertThat(contest.getPlayerRankingsList().size()).isEqualTo(0);
@@ -160,7 +159,7 @@ public class ContestManagerTest
     }
 
     @Test
-    public void testFindPlayerRankings()
+    public void test8FindPlayerRankings()
     {
         // TODO: Fix this
         PlayerRankings playerRankings = contestManager.findPlayerRankings(oliver, freestyle1);
@@ -191,7 +190,7 @@ public class ContestManagerTest
     // TODO: This is really the test data setup which should exercise most
     //  functionality
     @Test
-    public void testSetupTestContestData()
+    public void test999SetupTestContestData()
     {
         // contests
         contestManager.save(new Contest("Skateboard Freestyle 1"));
@@ -233,6 +232,37 @@ public class ContestManagerTest
                     PlayerRankings playerRankings = contestManager.findPlayerRankings(player, startedContest);
                     assertThat(playerRankings).isNull();
                 });
+
+        // he was disqualified
+        List<Rating> oliversRatings = contestManager.findRatings(oliver, freestyle1);
+        assertThat(oliversRatings.size()).isEqualTo(0);
+
+        List<Rating> davesRatings = contestManager.findRatings(dave, freestyle1);
+        assertThat(davesRatings.size()).isEqualTo(1);
+        Rating davesRating = davesRatings.get(0);
+        assertThat(davesRating.getContest()).isEqualTo(freestyle1);
+        assertThat(davesRating.getPlayer()).isEqualTo(dave);
+        assertThat(davesRating.getEntry().getPlayer()).isEqualTo(carter);
+        assertThat(davesRating.getComments()).isEmpty();
+        assertThat(davesRating.getScore()).isNull();
+        assertThat(davesRating.getSourceId()).isEqualTo(dave.idAsString());
+
+        List<Rating> cartersRatings = contestManager.findRatings(carter, freestyle1);
+        assertThat(cartersRatings.size()).isEqualTo(1);
+        Rating cartersRating = cartersRatings.get(0);
+        assertThat(cartersRating.getContest()).isEqualTo(freestyle1);
+        assertThat(cartersRating.getPlayer()).isEqualTo(carter);
+        assertThat(cartersRating.getEntry().getPlayer()).isEqualTo(dave);
+
+        cartersRating.setComments("Hella Good Bro!");
+        cartersRating.setScore(90);
+        contestManager.save(cartersRating);
+        Rating cartersUpdatedRating = contestManager.findRatings(carter, freestyle1).get(0);
+        assertThat(cartersUpdatedRating.getComments().equals("Hella Good Bro!"));
+        assertThat(cartersUpdatedRating.getScore().equals(90));
+
+        List<Rating> allContestRatings = contestManager.findRatings(freestyle1);
+        assertThat(allContestRatings.size()).isEqualTo(2);
     }
 
 

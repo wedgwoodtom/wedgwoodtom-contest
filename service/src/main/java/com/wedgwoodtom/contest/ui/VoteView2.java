@@ -2,6 +2,8 @@ package com.wedgwoodtom.contest.ui;
 
 import com.kbdunn.vaadin.addons.mediaelement.MediaElementPlayer;
 import com.kbdunn.vaadin.addons.mediaelement.MediaElementPlayerOptions;
+import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.ContextClickEvent;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
@@ -15,6 +17,8 @@ import com.vaadin.ui.renderers.ProgressBarRenderer;
 import com.vaadin.ui.renderers.TextRenderer;
 import com.wedgwoodtom.contest.service.ContestManager;
 import com.wedgwoodtom.contest.ui.explore.ExampleUtil;
+import com.wedgwoodtom.test.data.Contest;
+import org.springframework.util.StringUtils;
 
 import java.util.Random;
 import java.util.Set;
@@ -39,6 +43,7 @@ public class VoteView2 extends VerticalLayout implements View
         Grid videoGrid = new Grid();
         videoGrid.setSizeFull();
 
+//        videoGrid.setContainerDataSource();
 
         videoGrid.addColumn("name", String.class).setRenderer(new TextRenderer()).setExpandRatio(0);
         videoGrid.addColumn("progress", Double.class).setRenderer(new ProgressBarRenderer()).setExpandRatio(2);
@@ -110,4 +115,22 @@ public class VoteView2 extends VerticalLayout implements View
         // TODO: Set
         videoPlayer.setSource(new ExternalResource("https://youtu.be/pQuYSVYk5AU"));
     }
+
+
+    private IndexedContainer listContests(String text)
+    {
+
+//        Contest
+        if (StringUtils.isEmpty(text))
+        {
+
+
+
+//            return new BeanItemContainer(Contest.class, contestManager.findAllContests()));
+        }
+
+        return null;
+    }
+
+
 }
