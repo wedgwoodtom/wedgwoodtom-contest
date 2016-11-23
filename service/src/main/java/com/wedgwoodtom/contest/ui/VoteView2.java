@@ -2,6 +2,7 @@ package com.wedgwoodtom.contest.ui;
 
 import com.kbdunn.vaadin.addons.mediaelement.MediaElementPlayer;
 import com.kbdunn.vaadin.addons.mediaelement.MediaElementPlayerOptions;
+import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.IndexedContainer;
 import com.vaadin.event.ContextClickEvent;
@@ -18,8 +19,10 @@ import com.vaadin.ui.renderers.TextRenderer;
 import com.wedgwoodtom.contest.service.ContestManager;
 import com.wedgwoodtom.contest.ui.explore.ExampleUtil;
 import com.wedgwoodtom.test.data.Contest;
+import com.wedgwoodtom.test.data.Rating;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -36,6 +39,8 @@ public class VoteView2 extends VerticalLayout implements View
 
     public VoteView2()
     {
+        contestManager = ContestUI.getContestUI().getContestManager();
+
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         horizontalLayout.setSizeFull();
 
@@ -52,6 +57,8 @@ public class VoteView2 extends VerticalLayout implements View
             Set<Object> selected = listener.getSelected();
             // TODO: Set
             videoPlayer.setSource(new ExternalResource("https://youtu.be/pQuYSVYk5AU"));
+//            videoPlayer.play();
+            findRatings();
         });
 
         for (int i = 0; i < 10; ++i)
@@ -67,7 +74,6 @@ public class VoteView2 extends VerticalLayout implements View
 
         videoPlayer = new MediaElementPlayer(MediaElementPlayer.Type.VIDEO);
         videoPlayer.setWidth(600, Unit.PIXELS);
-        videoPlayer.setSource(new ExternalResource("https://youtu.be/pQuYSVYk5AU"));
 
         VerticalLayout playerVerticalLayout = new VerticalLayout();
         playerVerticalLayout.setWidth(600, Unit.PIXELS);
@@ -113,23 +119,22 @@ public class VoteView2 extends VerticalLayout implements View
         // set to first
 //        Notification.show("Enter on Video");
         // TODO: Set
-        videoPlayer.setSource(new ExternalResource("https://youtu.be/pQuYSVYk5AU"));
+//        videoPlayer.setSource(new ExternalResource("https://youtu.be/pQuYSVYk5AU"));
     }
 
-
-    private IndexedContainer listContests(String text)
+    private Container.Indexed findRatings()
     {
+        // TODO: This will need to be setup somewhere, hard-code for now
 
-//        Contest
-        if (StringUtils.isEmpty(text))
+        Contest contest = contestManager.findContestByTitle("Virtual Freestyle 1");
+        if (contest == null)
         {
-
-
-
-//            return new BeanItemContainer(Contest.class, contestManager.findAllContests()));
+            throw new RuntimeException("Could not find contest");
         }
 
-        return null;
+        List<Rating> ratings = contestManager.findRatings(contest);
+
+        return new BeanItemContainer(Rating.class, ratings);
     }
 
 

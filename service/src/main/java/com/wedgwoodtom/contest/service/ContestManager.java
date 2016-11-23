@@ -169,6 +169,11 @@ public class ContestManager
         return contestRepository.findOne(contestId);
     }
 
+    public Contest findContestByTitle(String contestTitle)
+    {
+        return contestRepository.findByTitle(contestTitle);
+    }
+
     public List<Contest> findAllContests()
     {
         return contestRepository.findAll(new Sort(Sort.Direction.ASC, "title"));

@@ -26,7 +26,7 @@ import java.awt.event.MouseWheelEvent;
  */
 public class VoteView extends VerticalLayout implements View
 {
-    public static final String NAME = "vote";
+    public static final String NAME = "vote-old";
 
     private ContestManager contestManager;
 
