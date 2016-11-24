@@ -1,30 +1,21 @@
 package com.wedgwoodtom.contest.ui;
 
 import com.kbdunn.vaadin.addons.mediaelement.MediaElementPlayer;
-import com.kbdunn.vaadin.addons.mediaelement.MediaElementPlayerOptions;
 import com.vaadin.data.Container;
 import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.IndexedContainer;
-import com.vaadin.event.ContextClickEvent;
+import com.vaadin.event.SelectionEvent;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.server.FontIcon;
 import com.vaadin.ui.*;
-import com.vaadin.ui.renderers.ClickableRenderer;
-import com.vaadin.ui.renderers.NumberRenderer;
 import com.vaadin.ui.renderers.ProgressBarRenderer;
 import com.vaadin.ui.renderers.TextRenderer;
 import com.wedgwoodtom.contest.service.ContestManager;
-import com.wedgwoodtom.contest.ui.explore.ExampleUtil;
 import com.wedgwoodtom.test.data.Contest;
 import com.wedgwoodtom.test.data.Rating;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Created by thomaspatterson on 11/20/16.
@@ -34,8 +25,11 @@ public class VoteView2 extends VerticalLayout implements View
     public static final String NAME = "vote";
 
     private ContestManager contestManager;
-
     private MediaElementPlayer videoPlayer;
+    private List<RatingWrapper> ratings;
+    private Grid videoGrid;
+    private Slider slider;
+    private TextArea comments;
 
     public VoteView2()
     {
@@ -45,28 +39,24 @@ public class VoteView2 extends VerticalLayout implements View
         horizontalLayout.setSizeFull();
 
         Panel videoListPanel = new Panel();
-        Grid videoGrid = new Grid();
+        videoGrid = new Grid();
         videoGrid.setSizeFull();
 
-//        videoGrid.setContainerDataSource();
-
         videoGrid.addColumn("name", String.class).setRenderer(new TextRenderer()).setExpandRatio(0);
-        videoGrid.addColumn("progress", Double.class).setRenderer(new ProgressBarRenderer()).setExpandRatio(2);
+        videoGrid.addColumn("ratingValue", Double.class).setRenderer(new ProgressBarRenderer()).setExpandRatio(2);
+        videoGrid.setContainerDataSource(findRatings());
 
         videoGrid.addSelectionListener(listener -> {
-            Set<Object> selected = listener.getSelected();
-            // TODO: Set
-            videoPlayer.setSource(new ExternalResource("https://youtu.be/pQuYSVYk5AU"));
+            RatingWrapper selected = getSelectedRating();
+            if (selected!=null)
+            {
+                slider.setValue(selected.getRatingValue()*100);
+                comments.setValue(selected.getRating().getComments());
+                // TODO: Set  "https://youtu.be/pQuYSVYk5AU"
+                videoPlayer.setSource(new ExternalResource(selected.getRating().getEntry().getVideoUrl()));
+            }
 //            videoPlayer.play();
-            findRatings();
         });
-
-        for (int i = 0; i < 10; ++i)
-        {
-            videoGrid.addRow(
-            /* name */"Bob Barker "+i,
-            /* progress */Math.sin(i / 3.0) / 2.0 + 0.5);
-        }
 
         videoListPanel.setContent(videoGrid);
         videoListPanel.setSizeFull();
@@ -79,7 +69,7 @@ public class VoteView2 extends VerticalLayout implements View
         playerVerticalLayout.setWidth(600, Unit.PIXELS);
         playerVerticalLayout.addComponent(videoPlayer);
 
-        Slider slider = new Slider();
+        slider = new Slider();
         slider.setCaption("My Rating");
         slider.setMin(0.0);
         slider.setMax(100.0);
@@ -87,17 +77,29 @@ public class VoteView2 extends VerticalLayout implements View
         slider.setWidth(100, Unit.PERCENTAGE);
         playerVerticalLayout.addComponent(slider);
 
-
         HorizontalLayout controlLayout = new HorizontalLayout();
         controlLayout.setSizeFull();
 
-        TextArea comments = new TextArea();
+        comments = new TextArea();
         comments.setCaption("Comments");
         comments.setWidth(100, Unit.PERCENTAGE);
         comments.setRows(3);
 
         Button rateButton = new Button();
         rateButton.setCaption("Save");
+        rateButton.addClickListener(listener -> {
+            // TODO: Hack - move all this to a class method
+            RatingWrapper selected = getSelectedRating();
+            selected.getRating().setScore(slider.getValue().intValue());
+            selected.setRatingValue(slider.getValue()/100);
+            selected.getRating().setComments(comments.getValue());
+
+            contestManager.save(selected.getRating());
+
+            // trick to re-draw the grid FFS
+            videoGrid.setRowStyleGenerator(null);
+
+        });
 
         controlLayout.addComponent(comments);
         controlLayout.addComponent(rateButton);
@@ -116,10 +118,15 @@ public class VoteView2 extends VerticalLayout implements View
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event)
     {
-        // set to first
-//        Notification.show("Enter on Video");
-        // TODO: Set
-//        videoPlayer.setSource(new ExternalResource("https://youtu.be/pQuYSVYk5AU"));
+        if (ratings.isEmpty() != true)
+        {
+            videoGrid.select(ratings.get(0));
+        }
+    }
+
+    private RatingWrapper getSelectedRating()
+    {
+        return (RatingWrapper)videoGrid.getSelectedRow();
     }
 
     private Container.Indexed findRatings()
@@ -132,10 +139,50 @@ public class VoteView2 extends VerticalLayout implements View
             throw new RuntimeException("Could not find contest");
         }
 
-        List<Rating> ratings = contestManager.findRatings(contest);
+        ratings = contestManager.findRatings(contest).stream()
+                .map(rating -> new RatingWrapper(rating))
+                .collect(Collectors.toList());
 
-        return new BeanItemContainer(Rating.class, ratings);
+        return new BeanItemContainer(RatingWrapper.class, ratings);
     }
 
+    public class RatingWrapper
+    {
+        private String name;
+        private double ratingValue;
+        private Rating rating;
+
+        public RatingWrapper(Rating rating)
+        {
+            this.rating = rating;
+            this.name = rating.getPlayer().getFirstName()+" "+rating.getPlayer().getLastName();
+            this.ratingValue = rating.getScore()==null ? 0 : rating.getScore().doubleValue()/100;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public void setName(String name)
+        {
+            this.name = name;
+        }
+
+        public double getRatingValue()
+        {
+            return ratingValue;
+        }
+
+        public void setRatingValue(double ratingValue)
+        {
+            this.ratingValue = ratingValue;
+        }
+
+        public Rating getRating()
+        {
+            return rating;
+        }
+    }
 
 }
