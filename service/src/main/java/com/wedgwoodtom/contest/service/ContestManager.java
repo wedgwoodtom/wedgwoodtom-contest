@@ -1,10 +1,10 @@
 package com.wedgwoodtom.contest.service;
 
 import com.wedgwoodtom.test.data.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,17 +13,20 @@ import java.util.stream.Collectors;
 @Component
 public class ContestManager
 {
-    @Autowired
+    @Resource
     PlayerRepository playerRepository;
 
-    @Autowired
+    @Resource
     ContestRepository contestRepository;
 
-    @Autowired
+    @Resource
     EntryRepository entryRepository;
 
-    @Autowired
+    @Resource
     PlayerRankingsRepository playerRankingsRepository;
+
+    @Resource
+    RatingRepository ratingRepository;
 
 
     public Contest save(Contest contest)
@@ -51,6 +54,11 @@ public class ContestManager
         return playerRankingsRepository.save(playerRankings);
     }
 
+    public Rating save(Rating rating)
+    {
+        return ratingRepository.save(rating);
+    }
+
     public void addPlayerToContest(Player player, Contest contest)
     {
         player.addContest(contest);
@@ -73,6 +81,16 @@ public class ContestManager
     {
         List<PlayerRankings> list = playerRankingsRepository.findByPlayerAndContest(player, contest);
         return list.isEmpty() ? null : list.get(0);
+    }
+
+    public List<Rating> findRatings(Player player, Contest contest)
+    {
+        return ratingRepository.findByPlayerAndContest(player, contest);
+    }
+
+    public List<Rating> findRatings(Contest contest)
+    {
+        return ratingRepository.findByContest(contest);
     }
 
     public Contest addContestEntry(Contest contest, Entry entry)
@@ -98,6 +116,17 @@ public class ContestManager
                     {
                         PlayerRankings playerRankings = new PlayerRankings(contest, player, contest.getEntryList());
                         playerRankingsRepository.save(playerRankings);
+
+                        // TODO: Do a sanity check - there should be no ratings for contest/player
+                        //save a default rating for each player
+                        contest.getEntryList().forEach( entry -> {
+                            // do not add entry for yourself
+                            if (!player.equals(entry.getPlayer()))
+                            {
+                                Rating ratingForPlayer = new Rating(contest, player, entry);
+                                ratingRepository.save(ratingForPlayer);
+                            }
+                        });
                     }
                     else
                     {
@@ -125,6 +154,11 @@ public class ContestManager
         contestRepository.deleteAll();
     }
 
+    public void deleteRatings()
+    {
+        ratingRepository.deleteAll();
+    }
+
     public Player findPlayerById(String playerId)
     {
         return playerRepository.findOne(playerId);
@@ -133,6 +167,11 @@ public class ContestManager
     public Contest findContestById(String contestId)
     {
         return contestRepository.findOne(contestId);
+    }
+
+    public Contest findContestByTitle(String contestTitle)
+    {
+        return contestRepository.findByTitle(contestTitle);
     }
 
     public List<Contest> findAllContests()

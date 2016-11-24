@@ -21,7 +21,6 @@ public class ContestView extends VerticalLayout implements View
 
 //    @Resource
 //    private ContestEditor editor;
-//getUI().getNavigator().navigateTo(ExploreVUI.MAINVIEW);
 
     private Grid grid;
     private TextField filter;
@@ -56,36 +55,18 @@ public class ContestView extends VerticalLayout implements View
 //        Contest contest = (Contest)grid.getSelectedRow();
         editButton.addClickListener(e -> ContestUI.getContestUI().editContest((Contest)grid.getSelectedRow()));
 
-
-
-/*
-        grid.addItemClickListener( click -> {
-            if (click.isDoubleClick()) {
-                // The item was double-clicked, event.getItem() returns the target.
-//                click.getItem()
-                Notification.show("Double-click", Notification.Type.ERROR_MESSAGE);
-            }
-        });
-
         grid.addSelectionListener(e ->
         {
-            if (e.getSelected().isEmpty())
+            if (!e.getSelected().isEmpty())
             {
-                Notification.show("Welcome to the Animal Farm", Notification.Type.ERROR_MESSAGE);
-            } else
-            {
-//                editor.editContest((Contest) grid.getSelectedRow());
+                ContestUI.getContestUI().editContest((Contest)grid.getSelectedRow());
             }
         });
-*/
 
-        // Instantiate and edit new Customer the new button is clicked
-//        addNewBtn.addClickListener(e -> editor.editContest(new Contest("")));
-
-        // Listen changes made by the editor, refresh data from backend
-//        editor.setChangeHandler(() -> {
-//            editor.setVisible(false);
-//            listContests(filter.getValue());
+//        grid.addItemClickListener( click -> {
+//            if (click.isDoubleClick()) {
+//                Notification.show("Double-click", Notification.Type.ERROR_MESSAGE);
+//            }
 //        });
 
         // Initialize listing
@@ -106,7 +87,6 @@ public class ContestView extends VerticalLayout implements View
                     new BeanItemContainer(Contest.class, contestManager.findAllContests()));
         }
     }
-
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event)

@@ -32,14 +32,17 @@ public class VideoViewerView extends VerticalLayout implements View
 //        videoPlayer.setSource(new ExternalResource("https://youtu.be/kh29_SERH0Y"));
 
 
-//        Slider sample = new Slider();
-//        sample.setImmediate(true);
-//        sample.setMin(0.0);
-//        sample.setMax(100.0);
-//        sample.setValue(50.0);
-//        sample.setSizeFull();
-//        sample.setCaption("Score");
-//        addComponent(sample);
+        for (int i=0; i<3; i++)
+        {
+            Slider sample = new Slider();
+            sample.setImmediate(true);
+            sample.setMin(0.0);
+            sample.setMax(100.0);
+            sample.setValue(50.0);
+            sample.setSizeFull();
+            sample.setCaption("Score");
+            addComponent(sample);
+        }
 
     }
 

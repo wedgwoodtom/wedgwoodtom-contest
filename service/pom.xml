@@ -131,21 +131,21 @@
             </plugin>
 
             <!--This is needed in order to use the RatingsWidget-->
-            <!--<plugin>-->
-                <!--<groupId>com.vaadin</groupId>-->
-                <!--<artifactId>vaadin-maven-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--&lt;!&ndash;<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<noServer>true</noServer>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<draftCompile>false</draftCompile>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<style>OBF</style>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<compileReport>true</compileReport>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<runTarget>http://localhost:8080/</runTarget>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<widgetsetMode>cdn</widgetsetMode>&ndash;&gt;-->
+            <plugin>
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <configuration>
+                    <!--<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>-->
+                    <!--<webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>-->
+                    <!--<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>-->
+                    <!--<noServer>true</noServer>-->
+                    <!--<draftCompile>false</draftCompile>-->
+                    <!--<style>OBF</style>-->
+                    <!--<compileReport>true</compileReport>-->
+                    <!--<runTarget>http://localhost:8080/</runTarget>-->
+                    <!--<widgetsetMode>cdn</widgetsetMode>-->
 
-                    <!--&lt;!&ndash;<extraJvmArgs>-Xmx2g -Xss1024k</extraJvmArgs>&ndash;&gt;-->
+                    <!--<extraJvmArgs>-Xmx2g -Xss1024k</extraJvmArgs>-->
                     <!--<webappDirectory>${basedir}/target/classes/VAADIN/widgetsets</webappDirectory>-->
                     <!--<draftCompile>false</draftCompile>-->
                     <!--<compileReport>false</compileReport>-->
@@ -153,17 +153,17 @@
                     <!--<runTarget>http://localhost:8080/simple</runTarget>-->
                     <!--<module>AppWidgetset</module>-->
 
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<goals>-->
-                            <!--&lt;!&ndash;<goal>compile-theme</goal>&ndash;&gt;-->
-                            <!--<goal>update-widgetset</goal>-->
-                            <!--&lt;!&ndash;<goal>compile</goal>&ndash;&gt;-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <!--<goal>compile-theme</goal>-->
+                            <goal>update-widgetset</goal>
+                            <!--<goal>compile</goal>-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
         </plugins>
 

@@ -3,10 +3,14 @@ package com.wedgwoodtom.contest.ui;
 import com.kbdunn.vaadin.addons.mediaelement.MediaElementPlayer;
 import com.kbdunn.vaadin.addons.mediaelement.MediaElementPlayerOptions;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.event.ContextClickEvent;
+import com.vaadin.event.MouseEvents;
+import com.vaadin.event.ShortcutListener;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.ExternalResource;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.shared.MouseEventDetails;
 import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.shared.ui.slider.SliderOrientation;
 import com.vaadin.ui.*;
@@ -15,12 +19,14 @@ import com.wedgwoodtom.test.data.Contest;
 import com.wedgwoodtom.test.data.PlayerRankings;
 import org.springframework.util.StringUtils;
 
+import java.awt.event.MouseWheelEvent;
+
 /**
  * Created by thomaspatterson on 11/20/16.
  */
 public class VoteView extends VerticalLayout implements View
 {
-    public static final String NAME = "vote";
+    public static final String NAME = "vote-old";
 
     private ContestManager contestManager;
 
@@ -31,67 +37,26 @@ public class VoteView extends VerticalLayout implements View
 //        contestManager = ContestUI.getContestUI().getContestManager();
 
 
-// Create a table and add a style to
-// allow setting the row height in theme.
         Table table = new Table();
         table.addStyleName("components-inside");
 
-/* Define the names and data types of columns.
- * The "default value" parameter is meaningless here. */
         table.addContainerProperty("Player", Label.class, null);
         table.addContainerProperty("Entry", MediaElementPlayer.class,  null);
         table.addContainerProperty("Rating",  VerticalLayout.class, null);
-//        table.addContainerProperty("Rating",  Slider.class, null);
-//        table.addContainerProperty("Comments", TextField.class,    null);
 
         addTableItem(table, "Tom", "https://youtu.be/pQuYSVYk5AU", 25, "No comment");
         addTableItem(table, "Bob", "https://youtu.be/pQuYSVYk5AU", 50, "Awesome");
+        addTableItem(table, "Bill", "https://youtu.be/pQuYSVYk5AU", 50, "Awesome");
+        addTableItem(table, "Ed", "https://youtu.be/pQuYSVYk5AU", 50, "Awesome");
 
-//        for (int i=0; i<25; i++)
+//        for (int i=0; i<50; i++)
 //        {
 //            addTableItem(table, "Harry"+i, "https://youtu.be/pQuYSVYk5AU", 75, "Cool");
 //        }
 
-/* Add a few items in the table. */
-//        for (int i=0; i<100; i++) {
-//            // Create the fields for the current table row
-//            Label sumField = new Label("Tom");
-//            CheckBox transferredField = new CheckBox("is transferred");
-//
-//            // Multiline text field. This required modifying the
-//            // height of the table row.
-//            TextField commentsField = new TextField();
-////            commentsField.setMaxLength(3);
-//
-//            // The Table item identifier for the row.
-//            Integer itemId = new Integer(i);
-//
-//            // Create a button and handle its click. A Button does not
-//            // know the item it is contained in, so we have to store the
-//            // item ID as user-defined data.
-//            Button detailsField = new Button("show details");
-//            detailsField.setData(itemId);
-//            detailsField.addClickListener(new Button.ClickListener() {
-//                public void buttonClick(Button.ClickEvent event) {
-//                    // Get the item identifier from the user-defined data.
-//                    Integer iid = (Integer)event.getButton().getData();
-//                    Notification.show("Link " +
-//                            iid.intValue() + " clicked.");
-//                }
-//            });
-//            detailsField.addStyleName("link");
-//
-//            // Create the table row.
-//            table.addItem(new Object[] {sumField, transferredField,
-//                            commentsField, detailsField},
-//                    itemId);
-//        }
-
 // Show just three rows because they are so high.
 //        table.setPageLength(5);
-
         table.setSizeFull();
-
         addComponent(table);
     }
 
@@ -118,8 +83,19 @@ public class VoteView extends VerticalLayout implements View
         slider.setMax(100.0);
         slider.setValue((double)rating);
         slider.setWidth(100, Unit.PERCENTAGE);
+        slider.setReadOnly(true);
 //        slider.setSizeUndefined();
         slider.setData(player);
+
+       slider.addContextClickListener(new ContextClickEvent.ContextClickListener()
+       {
+           @Override
+           public void contextClick(ContextClickEvent event)
+           {
+               int t = 9;
+           }
+       });
+
 //        slider.setOrientation(SliderOrientation.VERTICAL);
         slider.addValueChangeListener(event -> {
             Field.ValueChangeEvent changeEvent = (Field.ValueChangeEvent)event;

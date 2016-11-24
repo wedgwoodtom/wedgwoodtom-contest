@@ -32,6 +32,7 @@ public class ContestUI extends UI
     //  thread local functionality of Vaadin
 
     private ContestView contestView;
+    private VoteView2 voteView;
 
     @Resource
     private ContestEditor contestEditor;
@@ -56,12 +57,16 @@ public class ContestUI extends UI
         contentPanel.setSizeFull();
 
         contestView = new ContestView();
+//        voteView = new VoteView2();
 
         navigator = new Navigator(this, contentPanel);
         // Adding an instance allows it to maintain state (which I prefer)
         navigator.addView(ContestView.NAME, contestView);
         navigator.addView(ContestEditor.NAME, contestEditor);
+        // TODO: retire this one
         navigator.addView(VoteView.NAME, VoteView.class);
+//        navigator.addView(VoteView2.NAME, voteView);
+        navigator.addView(VoteView2.NAME, VoteView2.class);
         navigator.addView(ContestResultsView.NAME, ContestResultsView.class);
         navigator.addView(VideoViewerView.NAME, VideoViewerView.class);
 
