@@ -49,6 +49,11 @@ public class ContestUI extends UI
     {
 //        setTheme("");
 
+        // TODO: get url params
+        // http://localhost:8080/?token=value
+        String token = request.getParameter("token");
+
+
         VerticalLayout layout = new VerticalLayout();
         layout.setMargin(true);
         setContent(layout);
@@ -69,6 +74,7 @@ public class ContestUI extends UI
         navigator.addView(VoteView2.NAME, VoteView2.class);
         navigator.addView(ContestResultsView.NAME, ContestResultsView.class);
         navigator.addView(VideoViewerView.NAME, VideoViewerView.class);
+        navigator.addView(JobStatusView.NAME, JobStatusView.class);
 
         layout.addComponent(new MainMenuBar(navigator));
         layout.addComponent(contentPanel);
