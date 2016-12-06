@@ -23,52 +23,38 @@ public class JobStatusView extends VerticalLayout implements View
     public static final String NAME = "jobStatus";
 
     private Grid grid = new Grid();
+    private Label label = new Label();
 
     public JobStatusView()
     {
+        VerticalSplitPanel splitPanel = new VerticalSplitPanel();
+        splitPanel.setSizeFull();
+        splitPanel.setSplitPosition(150, Unit.PIXELS);
+        splitPanel.setHeight(700, Unit.PIXELS);
+
+        splitPanel.setFirstComponent(grid);
+        splitPanel.setSecondComponent(label);
+
+
+        addComponent(splitPanel);
+
+        label.setContentMode(ContentMode.HTML);
+
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
 
-        // Add columns to the grid
-        grid.setWidth(100, Unit.PERCENTAGE);
-        grid.setHeight(700, Unit.PIXELS);
+        grid.setSizeFull();
         grid.setColumns("accountTitle", "status", "jobName");
-        addComponent(grid);
-
-
-        grid.setDetailsGenerator(new Grid.DetailsGenerator() {
-            @Override
-            public Component getDetails(Grid.RowReference rowReference) {
-                // Find the bean to generate details for
-
-                final JobStatus bean = (JobStatus) rowReference.getItemId();
-
-                // A basic label with bean data
-                Label label = new Label("Job Details:" + bean.getJobDetail().replaceAll("\n", "<br>"));
-                label.setContentMode(ContentMode.HTML);
-
-                // A button just for the sake of the example
-                Button button = new Button("Click me", new Button.ClickListener() {
-                    @Override
-                    public void buttonClick(Button.ClickEvent event) {
-                        Notification.show("Some button");
-                    }
-                });
-
-                // Wrap up all the parts into a vertical layout
-                VerticalLayout layout = new VerticalLayout(label,  button);
-                layout.setSpacing(true);
-                layout.setMargin(true);
-                return layout;
-            }
-        });
 
         grid.addItemClickListener(new ItemClickEvent.ItemClickListener() {
             @Override
             public void itemClick(ItemClickEvent event) {
-                if (event.isDoubleClick()) {
-                    Object itemId = event.getItemId();
-                    grid.setDetailsVisible(itemId, !grid.isDetailsVisible(itemId));
-                }
+                JobStatus bean = (JobStatus) event.getItemId();
+//                label.setValue("Job Details:" + bean.getJobDetail().replaceAll("\n", "<br>"));
+                // TODO: Set the size small using the theme (not this way)
+                label.setValue("Job Details:<span style='font-size:small'>"
+                        + bean.getJobDetail().replaceAll("\n", "<br>")
+                        + "<span>"
+                );
             }
         });
 
@@ -95,7 +81,7 @@ public class JobStatusView extends VerticalLayout implements View
 
     private List<JobStatus> getJobStatusList() throws IOException
     {
-        String token = "KyXtg4N87xf2KaPOovom4aAo4BCqYLBO";
+        String token = "9Y-jJKnQctJqX_OIYnoSwSA2oPDeYPDA";
 
         String response = IOUtils.toString(new URL("http://accountconfiguration.comcastwhls.test.corp.theplatform.com/web/Configure/getJobStatuses?schema=1.0&form=json&token="+token), Charset.forName("UTF-8"));
 //        JSONObject json = (JSONObject)new JSONParser().parse(response);
